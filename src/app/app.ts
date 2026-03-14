@@ -1,0 +1,30 @@
+
+import express from "express";
+import cors from "cors";
+import employeeRoutes from "./modules/employee/employee.route";
+import bannerRoutes from "./modules/banner/banner.route"
+import roleRoutes from "./modules/role/role.route"
+import courseRoutes from "./modules/course/course.route"
+import batchRoutes from "./modules/batch/batch.route"
+import categoryRoutes from "./modules/category/category.route"
+import assignTrainerRoutes from "./modules/assignTrainer/assignTrainer.route"
+import trainingRoutes from "./modules/training/training.route"
+import noticeRoutes from "./modules/notice/notice.route";
+import blogRoutes from "./modules/blog/blog.route"
+const app = express();
+
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use("/api/v1/employees", employeeRoutes);
+app.use("/api/v1/banners", bannerRoutes);
+app.use("/api/v1/roles", roleRoutes);
+app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/batches", batchRoutes);
+app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/assign-trainer", assignTrainerRoutes);
+app.use("/api/v1/trainings", trainingRoutes);
+app.use("/api/v1/notices", noticeRoutes);
+app.use("/api/v1/blogs", blogRoutes);
+export default app;
