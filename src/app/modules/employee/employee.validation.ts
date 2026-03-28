@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
 const stringToArray = (val: unknown) => {
     if (typeof val === "string") {
@@ -118,6 +118,7 @@ const updateEmployeeValidationSchema = z.object({
         fatherName: z.string().optional(),
         motherName: z.string().optional(),
         phone: z.string().min(11, "Phone number must be 11 digits").optional(),
+        email: z.string().optional(),
         alternatePhone: z.string().optional(),
         presentAddress: z.string().optional(),
         permanentAddress: z.string().optional(),

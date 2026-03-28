@@ -11,6 +11,7 @@ import assignTrainerRoutes from "./modules/assignTrainer/assignTrainer.route"
 import trainingRoutes from "./modules/training/training.route"
 import noticeRoutes from "./modules/notice/notice.route";
 import blogRoutes from "./modules/blog/blog.route"
+import admissionRoutes from "./modules/admission/admission.route"
 const app = express();
 
 app.use(cors());
@@ -27,4 +28,5 @@ app.use("/api/v1/assign-trainer", assignTrainerRoutes);
 app.use("/api/v1/trainings", trainingRoutes);
 app.use("/api/v1/notices", noticeRoutes);
 app.use("/api/v1/blogs", blogRoutes);
+app.use("/api/v1/admissions", admissionRoutes);
 export default app;

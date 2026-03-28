@@ -26,6 +26,7 @@ export interface IEmployee extends Document {
 
     // Contact
     phone: string;
+    email: string;
     alternatePhone?: string;
     presentAddress: string;
     permanentAddress: string;
