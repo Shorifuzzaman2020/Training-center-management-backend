@@ -50,6 +50,12 @@ export interface IAdmission extends Document {
 
   photo?: string;
 
-  feeStatus: "unpaid" | "paid";
   feeAmount: number;
+
+  feeStatus: "unpaid" | "paid" | "approved";
+
+  payments: {
+    amount: number;
+    date: Date;
+  }[];
 }

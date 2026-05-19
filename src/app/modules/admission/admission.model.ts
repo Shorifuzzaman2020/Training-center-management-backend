@@ -69,6 +69,12 @@ const admissionSchema = new Schema<IAdmission>(
       type: Number,
       default: 0,
     },
+    payments: [
+      {
+        amount: Number,
+        date: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true },
 );

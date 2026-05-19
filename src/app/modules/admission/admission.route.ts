@@ -17,5 +17,6 @@ router.post(
 router.get("/", AdmissionController.getAdmissions);
 
 router.patch("/:id/update-fee", AdmissionController.updateFees);
+router.delete("/:id", AdmissionController.deleteAdmission);
 
 export default router;

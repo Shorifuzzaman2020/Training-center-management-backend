@@ -12,6 +12,10 @@ import trainingRoutes from "./modules/training/training.route"
 import noticeRoutes from "./modules/notice/notice.route";
 import blogRoutes from "./modules/blog/blog.route"
 import admissionRoutes from "./modules/admission/admission.route"
+import attendanceRoutes from "./modules/attendance/attendance.route"
+import salaryRoutes from "./modules/salary/salary.route"
+import InstructorRoutes from "./modules/instructor/instructor.route";
+import { CertificateRoutes } from "./modules/certificate/certificate.route";
 const app = express();
 
 app.use(cors());
@@ -29,4 +33,8 @@ app.use("/api/v1/trainings", trainingRoutes);
 app.use("/api/v1/notices", noticeRoutes);
 app.use("/api/v1/blogs", blogRoutes);
 app.use("/api/v1/admissions", admissionRoutes);
+app.use("/api/v1/attendance", attendanceRoutes);
+app.use("/api/v1/salary", salaryRoutes);
+app.use("/api/v1/instructor", InstructorRoutes);
+app.use("/api/v1", CertificateRoutes);
 export default app;
