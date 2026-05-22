@@ -40,6 +40,7 @@ const admissionSchema = new Schema<IAdmission>(
       type: Schema.Types.ObjectId,
       ref: "Batch",
     },
+    
 
     trainingMode: String,
 
@@ -64,7 +65,14 @@ const admissionSchema = new Schema<IAdmission>(
       enum: ["unpaid", "paid"],
       default: "unpaid",
     },
-
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      default: "student",
+    },
     feeAmount: {
       type: Number,
       default: 0,
@@ -72,7 +80,8 @@ const admissionSchema = new Schema<IAdmission>(
     payments: [
       {
         amount: Number,
-        date: { type: Date, default: Date.now },
+        transactionId: String,
+        date: Date,
       },
     ],
   },

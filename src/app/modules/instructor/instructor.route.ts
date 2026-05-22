@@ -28,4 +28,5 @@ router.post("/attendance", ctrl.markAttendance);
 router.get("/marks", ctrl.getMarks);
 router.post("/marks", ctrl.submitMarks);
 
+
 export default router;

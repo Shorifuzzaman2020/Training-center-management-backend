@@ -1,5 +1,6 @@
 import express from "express";
 import { AdmissionController } from "./admission.controller";
+import { AdmissionService } from "./admission.service";
 import multer from "multer";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get("/", AdmissionController.getAdmissions);
 
 router.patch("/:id/update-fee", AdmissionController.updateFees);
 router.delete("/:id", AdmissionController.deleteAdmission);
+router.get("/my-admissions", AdmissionController.getMyAdmissions);
 
 export default router;

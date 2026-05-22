@@ -1,6 +1,7 @@
+import { Request, Response } from "express";
 import { Admission } from "./admission.model";
 import cloudinary from "../../config/cloudinary";
-
+import mongoose from "mongoose";
 const createAdmissionIntoDB = async (
   payload: any,
   file?: Express.Multer.File,
@@ -18,12 +19,22 @@ const createAdmissionIntoDB = async (
     photoUrl = upload.secure_url;
   }
 
+  // const result = await Admission.create({
+  //   ...payload,
+  //   photo: photoUrl,
+  //   feeStatus: "unpaid",
+  //   feeAmount: 0,
+  // });
   const result = await Admission.create({
-    ...payload,
-    photo: photoUrl,
-    feeStatus: "unpaid",
-    feeAmount: 0,
-  });
+  ...payload,
+
+  course: new mongoose.Types.ObjectId(payload.course), // 🔥 FIX
+  preferredBatch: new mongoose.Types.ObjectId(payload.preferredBatch), // 🔥 FIX
+
+  photo: photoUrl,
+  feeStatus: "unpaid",
+  feeAmount: 0,
+});
 
   return result;
 };
@@ -93,6 +104,7 @@ const updateFees = async (id: string, payload: any) => {
 
       admission.payments.push({
         amount,
+        transactionId: payload.transactionId,
         date: new Date(),
       });
     }
@@ -111,10 +123,18 @@ const updateFees = async (id: string, payload: any) => {
 const deleteAdmission = async (id: string, payload: any) => {
   return Admission.findByIdAndDelete(id, payload);
 };
+const getMyAdmissions = async (email: string) => {
+  return Admission.find({ email })
+    .populate("course")          // 🔥 course details
+    .populate("preferredBatch")  // 🔥 batch details
+    .sort({ createdAt: -1 });
+};
+
 
 export const AdmissionService = {
   createAdmissionIntoDB,
   getAdmissions,
   updateFees,
   deleteAdmission,
+  getMyAdmissions
 };

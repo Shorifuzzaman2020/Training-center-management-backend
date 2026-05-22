@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AdmissionService } from "./admission.service";
+import { Admission } from "./admission.model";
 
 const createAdmission = async (req: Request, res: Response) => {
   try {
@@ -29,6 +30,29 @@ const getAdmissions = async (req: Request, res: Response) => {
   });
 };
 
+// export const getMyAdmissions = async (req: Request, res: Response) => {
+//   try {
+//     const { email } = req.query;
+
+//     if (!email) {
+//       return res.status(400).json({
+//         message: "Email required",
+//       });
+//     }
+
+//     const data = await Admission.find({ email });
+
+//     res.json({
+//       success: true,
+//       data,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       message: "Failed to fetch admissions",
+//     });
+//   }
+// };
+
 // const updateFees = async (req: Request, res: Response) => {
 //   const id = req.params.id as string;
 
@@ -41,6 +65,33 @@ const getAdmissions = async (req: Request, res: Response) => {
 //   });
 // };
 
+
+export const getMyAdmissions = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.query;
+
+    if (!email) {
+      return res.status(400).json({
+        message: "Email required",
+      });
+    }
+
+    const data = await Admission.find({ email })
+      .populate("course")          // 🔥 MUST
+      .populate("preferredBatch")  // 🔥 MUST
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data,
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed to fetch admissions",
+    });
+  }
+};
 const updateFees = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -79,9 +130,11 @@ const deleteAdmission = async (req: Request, res: Response) => {
   });
 }
 
+
 export const AdmissionController = {
   createAdmission,
   getAdmissions,
   updateFees,
   deleteAdmission,
+  getMyAdmissions,
 };

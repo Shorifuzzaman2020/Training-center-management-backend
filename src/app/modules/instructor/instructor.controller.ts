@@ -85,7 +85,8 @@
 
 import { Request, Response } from "express";
 import { InstructorService } from "./instructor.service";
-
+import { Admission } from "../admission/admission.model";
+import { Result } from "./instructor.model";
 export const getStudents = async (req: Request, res: Response) => {
   try {
     const { instructorId } = req.query;
@@ -118,4 +119,32 @@ export const getMarks = async (req: Request, res: Response) => {
 export const submitMarks = async (req: Request, res: Response) => {
   await InstructorService.submitMarks(req.body);
   res.json({ success: true });
+};
+
+export const getMyResults = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.query;
+
+    const student = await Admission.findOne({ email });
+
+    if (!student) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    const results = await Result.find({
+      student: student._id,
+    });
+
+    res.json({
+      success: true,
+      data: results,
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed to fetch results",
+    });
+  }
 };

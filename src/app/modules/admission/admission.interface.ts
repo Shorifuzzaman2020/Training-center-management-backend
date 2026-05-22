@@ -56,6 +56,9 @@ export interface IAdmission extends Document {
 
   payments: {
     amount: number;
+    transactionId: string,
     date: Date;
   }[];
+  password: string;
+  role: "student";
 }
