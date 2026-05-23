@@ -18,6 +18,7 @@ import InstructorRoutes from "./modules/instructor/instructor.route";
 import { CertificateRoutes } from "./modules/certificate/certificate.route";
 import { PaymentRoutes } from "./modules/payment/payment.route";
 import ResultRoutes from "./modules/result/result.route";
+import FinanceRoutes from "./modules/finance/finance.route";
 const app = express();
 
 app.use(cors());
@@ -41,4 +42,5 @@ app.use("/api/v1/instructor", InstructorRoutes);
 app.use("/api/v1", CertificateRoutes);
 app.use("/api/v1", PaymentRoutes);
 app.use("/api/v1/student", ResultRoutes);
+app.use("/api/v1/finance", FinanceRoutes);
 export default app;
