@@ -37,22 +37,48 @@ const getAllCategories = async (req: Request, res: Response) => {
     });
 };
 
-const getCategoryById = async (req: Request, res: Response) => {
-    const id = req.params.id as string;
-    const result = await CategoryService.getAllCategories();
-    const category = result.find((c) => c._id.toString() === id);
+// const getCategoryById = async (req: Request, res: Response) => {
+//     const id = req.params.id as string;
+//     const result = await CategoryService.getAllCategories();
+//     const category = result.find((c) => c._id.toString() === id);
 
-    if (!category) {
-        return res.status(404).json({
+//     if (!category) {
+//         return res.status(404).json({
+//             success: false,
+//             message: "Category not found",
+//         });
+//     }
+
+//     res.status(200).json({
+//         success: true,
+//         data: category,
+//     });
+// };
+
+const getCategoryById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        
+        // সরাসরি আইডি দিয়ে ডেটাবেজ থেকে আনুন
+        const category = await CategoryService.getCategoryById(id); 
+
+        if (!category) {
+            return res.status(404).json({
+                success: false,
+                message: "Category not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: category,
+        });
+    } catch (error: any) {
+        res.status(400).json({
             success: false,
-            message: "Category not found",
+            message: error.message,
         });
     }
-
-    res.status(200).json({
-        success: true,
-        data: category,
-    });
 };
 
 const updateCategory = async (req: Request, res: Response) => {

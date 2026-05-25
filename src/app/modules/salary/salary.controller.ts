@@ -37,6 +37,7 @@
 // };
 
 
+
 import { Request, Response } from "express";
 import { SalaryService } from "./salary.service";
 import { Salary } from "./salary.model";
