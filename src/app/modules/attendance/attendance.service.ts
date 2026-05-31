@@ -46,7 +46,13 @@ const getMonthlyAttendance = async (month: number, year: number) => {
 
 };
 
+
+const getAllAttendance = async () => {
+  return await Attendance.find().populate("employee").sort({ date: -1 });
+};
+
 export const AttendanceService = {
   bulkAttendance,
   getMonthlyAttendance,
+  getAllAttendance, 
 };

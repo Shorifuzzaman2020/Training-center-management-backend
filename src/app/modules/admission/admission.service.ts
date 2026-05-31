@@ -125,16 +125,22 @@ const deleteAdmission = async (id: string, payload: any) => {
 };
 const getMyAdmissions = async (email: string) => {
   return Admission.find({ email })
-    .populate("course")          // 🔥 course details
-    .populate("preferredBatch")  // 🔥 batch details
+    .populate("course")         
+    .populate("preferredBatch") 
     .sort({ createdAt: -1 });
 };
 
+const getAllAdmissions = async () => {
+  return await Admission.find()
+    .populate("course")
+    .populate("preferredBatch"); 
+};
 
 export const AdmissionService = {
   createAdmissionIntoDB,
   getAdmissions,
   updateFees,
   deleteAdmission,
-  getMyAdmissions
+  getMyAdmissions,
+  getAllAdmissions,
 };

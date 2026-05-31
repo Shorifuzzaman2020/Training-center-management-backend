@@ -8,5 +8,7 @@ router.post("/bulk-attendance", AttendanceController.markBulkAttendance);
 
 /* MONTHLY */
 router.get("/monthly", AttendanceController.getMonthlyAttendance);
+// attendance
+router.get("/", AttendanceController.getAllAttendanceRecords);
 
 export default router;
