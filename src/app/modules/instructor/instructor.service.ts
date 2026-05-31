@@ -199,10 +199,69 @@ const getStudents = async (instructorId: string) => {
 };
 
 /* ✅ ATTENDANCE BY DATE */
-const getAttendanceByDate = async (date: string) => {
-  return StudentAttendance.find({
-    date: new Date(date),
-  });
+// const getAttendanceByDate = async (date: string) => {
+//   return StudentAttendance.find({
+//     date: new Date(date),
+//   });
+// };
+
+/* ATTENDANCE BY DATE OR INSTRUCTOR*/
+// const getAttendanceByDate = async (query: { date?: string; instructorId?: string }) => {
+//   const queryObj: any = {};
+
+  
+//   if (query.date && query.date !== "undefined" && query.date.trim() !== "") {
+//     queryObj.date = new Date(query.date);
+//   }
+
+  
+//   if (query.instructorId && query.instructorId !== "undefined" && query.instructorId.trim() !== "") {
+//     queryObj.instructor = new Types.ObjectId(query.instructorId);
+//   }
+
+//   return StudentAttendance.find(queryObj);
+// };
+
+
+/* ATTENDANCE BY DATE OR INSTRUCTOR*/
+const getAttendanceByDate = async (query: { date?: string; instructorId?: string }) => {
+  const queryObj: any = {};
+
+  
+  if (query.date && query.date !== "undefined" && query.date.trim() !== "") {
+    queryObj.date = new Date(query.date);
+    return StudentAttendance.find(queryObj);
+  }
+
+  
+  if (query.instructorId && query.instructorId !== "undefined" && query.instructorId.trim() !== "") {
+    
+    
+    const assigned = await AssignTrainer.find({
+      trainer: query.instructorId,
+    });
+
+    const batchIds = assigned
+      .map((a) => a.batch)
+      .filter((id) => id != null);
+
+    if (batchIds.length > 0) {
+     
+      const studentsInBatch = await Admission.find({
+        preferredBatch: { $in: batchIds },
+        feeStatus: "paid",
+      }).select("_id");
+
+      const studentIds = studentsInBatch.map(s => s._id);
+
+      
+      return StudentAttendance.find({
+        student: { $in: studentIds }
+      });
+    }
+  }
+
+  return StudentAttendance.find(queryObj);
 };
 
 /* ✅ SAVE ATTENDANCE (NO DUPLICATE) */

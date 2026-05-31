@@ -99,10 +99,26 @@ export const getStudents = async (req: Request, res: Response) => {
   }
 };
 
+// export const getAttendanceByDate = async (req: Request, res: Response) => {
+//   const { date } = req.query;
+//   const data = await InstructorService.getAttendanceByDate(date as string);
+//   res.json({ data });
+// };
+
 export const getAttendanceByDate = async (req: Request, res: Response) => {
-  const { date } = req.query;
-  const data = await InstructorService.getAttendanceByDate(date as string);
-  res.json({ data });
+  try {
+    const { date, instructorId } = req.query;
+
+    
+    const data = await InstructorService.getAttendanceByDate({
+      date: date as string,
+      instructorId: instructorId as string,
+    });
+
+    res.json({ success: true, data });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
+  }
 };
 
 export const markAttendance = async (req: Request, res: Response) => {
